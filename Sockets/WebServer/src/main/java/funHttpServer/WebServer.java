@@ -16,6 +16,7 @@ write a response back
 
 package funHttpServer;
 
+import org.json.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -202,6 +203,7 @@ class WebServer {
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
           // extract required fields from parameters
+          try {
           Integer num1 = Integer.parseInt(query_pairs.get("num1"));
           Integer num2 = Integer.parseInt(query_pairs.get("num2"));
 
@@ -213,9 +215,22 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Result is: " + result);
-
-          // TODO: Include error handling here with a correct error code and
-          // a response that makes sense
+          } catch (NullPointerException n){
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: Multiply request must follow the below syntax");
+              builder.append("\n");
+              builder.append("/multiply?num1=<any integer>&num2=<any other integer>");
+              builder.append("\n");
+              builder.append("\n");
+              builder.append("Example: /multiply?num1=4&num2=10");
+          } catch (NumberFormatException f){
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used");
+          }
 
         } else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
@@ -227,17 +242,36 @@ class WebServer {
           //     "/repos/OWNERNAME/REPONAME/contributors"
 
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          try {
           query_pairs = splitQuery(request.replace("github?", ""));
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
+          JSONObject jobject = new JSONObject(json);
+          
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Check the todos mentioned in the Java source file");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
-
+          } catch (UnsupportedEncodingException uee) {
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: the URL is not encoded with UTF-8");
+          } catch (NullPointerException npe){
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: Sytax of request not recognized");
+          }catch (JSONException je) {
+              builder.append("HTTP/1.1 500 Internal Server Error\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format");
+  		}
+          
         } else {
           // if the request is not recognized at all
 
