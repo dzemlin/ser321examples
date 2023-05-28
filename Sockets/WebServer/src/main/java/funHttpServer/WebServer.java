@@ -220,6 +220,16 @@ class WebServer {
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used || ");
+          } catch (Exception e) {
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: Multiply request must follow the syntax: ");
+              builder.append("\n");
+              builder.append("/multiply?num1=<any integer>&num2=<any other integer> || ");
+              builder.append("\n");
+              builder.append("\n");
+              builder.append("Example: /multiply?num1=4&num2=10");
           }
 
         } else if (request.contains("github?")) {
@@ -271,14 +281,14 @@ class WebServer {
               builder.append("HTTP/1.1 500 Internal Server Error\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format" + je.getStackTrace());
+              builder.append("500 Internal Server Error: github provided a responce that was not in the expected JSON format" + je.getStackTrace());
   		  }catch (Exception e) {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("400 Bad Request: request must follow the syntax: ");
               builder.append("\n");
-              builder.append("/query=users/<github User Name>/repos");
+              builder.append("/query=users/<githubUserName>/repos");
           }
            
         } else {
