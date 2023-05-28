@@ -263,8 +263,8 @@ class WebServer {
         		  //repoOwner = ownerData.getString("login");
         	  } catch(Exception e) {
         		  //no repo found in this JSON object 
-        		  repoName = null;
-        		  repoId = null;
+        		  //repoName = null;
+        		  //repoId = null;
         		  //repoOwner = null;
         	  }
 		      if (repoName != null) {
