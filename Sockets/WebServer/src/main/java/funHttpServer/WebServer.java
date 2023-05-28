@@ -215,16 +215,26 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Result is: " + result);
-          } catch (UnsupportedEncodingException uee){
+          } catch (NumberFormatException f){
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used");
-          } catch (NullPointerException n){
+          } catch (UnsupportedEncodingException uee){
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("400 Bad Request: Multiply request must follow the below syntax");
+              builder.append("\n");
+              builder.append("/multiply?num1=<any integer>&num2=<any other integer>");
+              builder.append("\n");
+              builder.append("\n");
+              builder.append("Example: /multiply?num1=4&num2=10");
+          } catch (Exception e) {
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: Multiply request must follow the below syntax, please verify your requeust sytax");
               builder.append("\n");
               builder.append("/multiply?num1=<any integer>&num2=<any other integer>");
               builder.append("\n");
