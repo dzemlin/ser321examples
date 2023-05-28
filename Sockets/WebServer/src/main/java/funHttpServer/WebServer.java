@@ -255,16 +255,16 @@ class WebServer {
           builder.append("Check the todos mentioned in the Java source file");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
+          }catch (NullPointerException npe){
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("400 Bad Request: Sytax of request not recognized");
           } catch (UnsupportedEncodingException uee) {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("400 Bad Request: the URL is not encoded with UTF-8");
-          } catch (NullPointerException npe){
-              builder.append("HTTP/1.1 400 Bad Request\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("400 Bad Request: Sytax of request not recognized");
           }
           //catch (JSONException je) {
           //    builder.append("HTTP/1.1 500 Internal Server Error\n");
