@@ -348,7 +348,7 @@ class WebServer {
               try {
               query_pairs = splitQuery(request.replace("badBoy?", ""));
               String word = query_pairs.get("word");
-              Integer times = Integer.parseInt(query_pairs.get("times"));
+              Integer times = Integer.parseInt(query_pairs.get("num"));
               
               if (times > 0 && word.length() > 0) {
                   // write on the blackboard
