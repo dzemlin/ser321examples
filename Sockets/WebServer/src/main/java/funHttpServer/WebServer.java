@@ -251,7 +251,7 @@ class WebServer {
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
-          for (int i = 0; 0 < jArray.length(); i++) {
+          for (int i = 0; 0 < jArray.length() -1; i++) {
         	  String repoName = null;
         	  //String repoId = null;
         	  //String repoOwner = null;
