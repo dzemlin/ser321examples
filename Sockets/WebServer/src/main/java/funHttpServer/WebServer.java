@@ -16,7 +16,7 @@ write a response back
 
 package funHttpServer;
 
-import org.json.*;
+//import org.json.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -247,7 +247,7 @@ class WebServer {
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
-          JSONObject jobject = new JSONObject(json);
+          //JSONObject jobject = new JSONObject(json);
           
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
@@ -265,12 +265,13 @@ class WebServer {
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("400 Bad Request: Sytax of request not recognized");
-          }catch (JSONException je) {
-              builder.append("HTTP/1.1 500 Internal Server Error\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format");
-  		}
+          }
+          //catch (JSONException je) {
+          //    builder.append("HTTP/1.1 500 Internal Server Error\n");
+          //    builder.append("Content-Type: text/html; charset=utf-8\n");
+          //    builder.append("\n");
+          //    builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format");
+  		//}
           
         } else {
           // if the request is not recognized at all
