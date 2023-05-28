@@ -350,8 +350,6 @@ class WebServer {
               String word = query_pairs.get("word");
               Integer times = Integer.parseInt(query_pairs.get("times"));
               
-              System.out.println("HERE!!!!!!!!!!!!!!!!!!!!");
-              
               if (times > 0 && word.length() > 0) {
                   // write on the blackboard
                   builder.append("HTTP/1.1 200 OK\n");
