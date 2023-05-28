@@ -251,13 +251,13 @@ class WebServer {
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
-          for (int i = 0; 0 < jArray.length() -1; i++) {
-        	  String repoName = null;
+          //for (int i = 0; 0 < jArray.length() -1; i++) {
+        	  //String repoName = null;
         	  //String repoId = null;
         	  //String repoOwner = null;
         	  //JSONObject ownerData;
         	  //try {
-        		  repoName = jArray.getJSONObject(i).getString("name");
+        		  //repoName = jArray.getJSONObject(i).getString("name");
         		  //repoId = jArray.getJSONObject(i).getString("id");
         		  //ownerData = jArray.getJSONObject(i).getJSONObject("owner");
         		  //repoOwner = ownerData.getString("login");
@@ -267,15 +267,15 @@ class WebServer {
         		  //repoId = null;
         		  //repoOwner = null;
         	  //}
-		          if (repoName != null) {
-		        	  builder.append(repoName);
+		          //if (repoName != null) {
+		        	  //builder.append(repoName);
 		        	  //builder.append("," + repoId);
 		        	  //builder.append("," + repoOwner);
-		          if (i+1 < jArray.length()) {
+		          //if (i+1 < jArray.length()) {
 		        		  builder.append("  ||  ");
-		          }
-        	  }
-          }
+		          //}
+        	  //}
+          //}
 
           } catch (UnsupportedEncodingException uee) {
               builder.append("HTTP/1.1 400 Bad Request\n");
