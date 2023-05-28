@@ -308,12 +308,10 @@ class WebServer {
                 builder.append("Content-Type: text/html; charset=utf-8\n");
                 builder.append("\n");
                 builder.append("Rolling " + quantity + " d" + sides + "'s : ");
-                builder.append(System.getProperty("line.separator"));
 	            for (int i = 0; i < quantity; i++) {
-	            	int roll = 1 + (die.nextInt() % sides);
+	            	int roll = 1 + (Math.abs(die.nextInt()) % sides);
 	            	sum += roll;
 	            	builder.append(roll + ", ");
-	            	builder.append(System.getProperty("line.separator"));
 	            }
 	            builder.append("Total is: " + sum);
             } else {
