@@ -301,24 +301,28 @@ class WebServer {
             Integer sides = Integer.parseInt(query_pairs.get("sides"));
             Integer sum = 0;
             
-            // Roll dice
-            builder.append("Rolling " + quantity + " d" + sides + "'s :");
-            builder.append(System.getProperty("line.separator"));
-            
-            Random die = new Random();
-            if (quantity < 0 && sides < 2) {
+            // Roll dice            
+            if (quantity > 0 && sides > 1) {
+                Random die = new Random();
+                builder.append("HTTP/1.1 200 OK\n");
+                builder.append("Content-Type: text/html; charset=utf-8\n");
+                builder.append("\n");
+                builder.append("Rolling " + quantity + " d" + sides + "'s : ");
+                builder.append(System.getProperty("line.separator"));
 	            for (int i = 0; i < quantity; i++) {
 	            	int roll = 1 + (die.nextInt() % sides);
 	            	sum += roll;
-	            	builder.append(roll + ",");
+	            	builder.append(roll + ", ");
 	            	builder.append(System.getProperty("line.separator"));
 	            }
+	            builder.append("Total is: " + sum);
+            } else {
+                builder.append("HTTP/1.1 400 Bad Request\n");
+                builder.append("Content-Type: text/html; charset=utf-8\n");
+                builder.append("\n");
+                builder.append("400 Bad Request: Quantity must be greater than 0 and sides must be greater than 1");
             }
-            // Generate response
-            builder.append("HTTP/1.1 200 OK\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Total is: " + sum);
+            
             } catch (NumberFormatException f){
                 builder.append("HTTP/1.1 400 Bad Request\n");
                 builder.append("Content-Type: text/html; charset=utf-8\n");
