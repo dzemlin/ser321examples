@@ -272,7 +272,7 @@ class WebServer {
 		        	  //builder.append("," + repoId);
 		        	  //builder.append("," + repoOwner);
 		          //if (i+1 < jArray.length()) {
-		        		  builder.append("  ||  ");
+		        		  builder.append(jArray.length() + "  ||  ");
 		          //}
         	  //}
           //}
