@@ -16,7 +16,7 @@ write a response back
 
 package funHttpServer;
 
-//import org.json.*;
+import org.json.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -219,24 +219,14 @@ class WebServer {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used");
-          } catch (UnsupportedEncodingException uee){
-              builder.append("HTTP/1.1 400 Bad Request\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("400 Bad Request: Multiply request must follow the below syntax");
-              builder.append("\n");
-              builder.append("/multiply?num1=<any integer>&num2=<any other integer>");
-              builder.append("\n");
-              builder.append("\n");
-              builder.append("Example: /multiply?num1=4&num2=10");
+              builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used || ");
           } catch (Exception e) {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("400 Bad Request: Multiply request must follow the below syntax, please verify your requeust sytax");
+              builder.append("400 Bad Request: Multiply request must follow the syntax: ");
               builder.append("\n");
-              builder.append("/multiply?num1=<any integer>&num2=<any other integer>");
+              builder.append("/multiply?num1=<any integer>&num2=<any other integer> || ");
               builder.append("\n");
               builder.append("\n");
               builder.append("Example: /multiply?num1=4&num2=10");
@@ -255,16 +245,20 @@ class WebServer {
           try {
           query_pairs = splitQuery(request.replace("github?", ""));
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
-          System.out.println(json);
 
-          //JSONObject jobject = new JSONObject(json);
-          
+          JSONArray jArray = new JSONArray(json);
+
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
-          builder.append("Check the todos mentioned in the Java source file");
-          // TODO: Parse the JSON returned by your fetch and create an appropriate
-          // response based on what the assignment document asks for
+          for (int i = 0; 0 < jArray.length(); i++) {
+        	  String repoName = jArray.getJSONObject(i).getString("name");
+        	  builder.append(repoName);
+        	  if (i+1 < jArray.length()) {
+        		  builder.append(",");
+        	  }
+          }
+
           } catch (UnsupportedEncodingException uee) {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
@@ -276,13 +270,13 @@ class WebServer {
               builder.append("\n");
               builder.append("400 Bad Request: Sytax of request not recognized");
           }
-          //catch (JSONException je) {
-          //    builder.append("HTTP/1.1 500 Internal Server Error\n");
-          //    builder.append("Content-Type: text/html; charset=utf-8\n");
-          //    builder.append("\n");
-          //    builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format");
-  		//}
-          
+          catch (JSONException je) {
+              builder.append("HTTP/1.1 500 Internal Server Error\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format");
+  		  }
+           
         } else {
           // if the request is not recognized at all
 
