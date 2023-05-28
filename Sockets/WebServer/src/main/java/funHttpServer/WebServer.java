@@ -274,7 +274,7 @@ class WebServer {
               builder.append("HTTP/1.1 500 Internal Server Error\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-              builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format");
+              builder.append("500 Internal Server Error: github provided a responce that was not in proper JSON format" + je.getStackTrace());
   		  }
            
         } else {
