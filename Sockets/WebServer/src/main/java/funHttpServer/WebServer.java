@@ -350,6 +350,8 @@ class WebServer {
               String word = query_pairs.get("word");
               Integer times = Integer.parseInt(query_pairs.get("times"));
               
+              System.out.println("HERE!!!!!!!!!!!!!!!!!!!!");
+              
               if (times > 0 && word.length() > 0) {
                   // write on the blackboard
                   builder.append("HTTP/1.1 200 OK\n");
@@ -372,7 +374,7 @@ class WebServer {
                   builder.append("HTTP/1.1 400 Bad Request\n");
                   builder.append("Content-Type: text/html; charset=utf-8\n");
                   builder.append("\n");
-                  builder.append("400 Bad Request: word must be a string and times must both be integers, no other value types my be used || ");
+                  builder.append("400 Bad Request: word must be a string and times must be an integers, no other value types my be used || ");
               } catch (Exception e) {
                   builder.append("HTTP/1.1 400 Bad Request\n");
                   builder.append("Content-Type: text/html; charset=utf-8\n");
