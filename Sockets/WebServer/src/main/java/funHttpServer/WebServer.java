@@ -328,17 +328,17 @@ class WebServer {
                 builder.append("HTTP/1.1 400 Bad Request\n");
                 builder.append("Content-Type: text/html; charset=utf-8\n");
                 builder.append("\n");
-                builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used || ");
+                builder.append("400 Bad Request: quantity and sides must both be integers, no other value types my be used");
             } catch (Exception e) {
                 builder.append("HTTP/1.1 400 Bad Request\n");
                 builder.append("Content-Type: text/html; charset=utf-8\n");
                 builder.append("\n");
-                builder.append("400 Bad Request: Multiply request must follow the syntax: ");
+                builder.append("400 Bad Request: request must follow the syntax: ");
                 builder.append("\n");
-                builder.append("/multiply?num1=<anyInteger>&num2=<any otherInteger> || ");
+                builder.append("/rollDice?quantity=<anyInteger>&sides=<anyOtherInteger> || ");
                 builder.append("\n");
                 builder.append("\n");
-                builder.append("Example: /multiply?num1=4&num2=10");
+                builder.append("Example: /rollDice?quantity=2&sides=6");
             }
 
           } else if (request.contains("badBoy?")) {
@@ -365,24 +365,24 @@ class WebServer {
                   builder.append("HTTP/1.1 400 Bad Request\n");
                   builder.append("Content-Type: text/html; charset=utf-8\n");
                   builder.append("\n");
-                  builder.append("400 Bad Request: word must be atleast 1 letter long and times must be greater than 0");
+                  builder.append("400 Bad Request: word must be atleast 1 letter long and num must be greater than 0");
               }
               
               } catch (NumberFormatException f){
                   builder.append("HTTP/1.1 400 Bad Request\n");
                   builder.append("Content-Type: text/html; charset=utf-8\n");
                   builder.append("\n");
-                  builder.append("400 Bad Request: word must be a string and times must be an integers, no other value types my be used || ");
+                  builder.append("400 Bad Request: word must be a string and num must be an integers, no other value types my be used || ");
               } catch (Exception e) {
                   builder.append("HTTP/1.1 400 Bad Request\n");
                   builder.append("Content-Type: text/html; charset=utf-8\n");
                   builder.append("\n");
                   builder.append("400 Bad Request: request must follow the syntax: ");
                   builder.append("\n");
-                  builder.append("/badBoy?word=<anyWord>&times=<numberGreaterThanZero> || ");
+                  builder.append("/badBoy?word=<anyWord>&num=<numberGreaterThanZero> || ");
                   builder.append("\n");
                   builder.append("\n");
-                  builder.append("Example: /badBoy?word=good&times=10");
+                  builder.append("Example: /badBoy?word=good&num=10");
               }
 
             } else {
