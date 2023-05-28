@@ -291,7 +291,52 @@ class WebServer {
               builder.append("/query=users/<githubUserName>/repos");
           }
            
-        } else {
+        } else if (request.contains("rollDice?")) {
+            // This will roll a given number of polyhedral dice
+
+            Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+            try {
+            query_pairs = splitQuery(request.replace("rollDice?", ""));
+            Integer quantity = Integer.parseInt(query_pairs.get("quantity"));
+            Integer sides = Integer.parseInt(query_pairs.get("sides"));
+            Integer sum = 0;
+            
+            // Roll dice
+            builder.append("Rolling " + quantity + " d" + sides + "'s :");
+            builder.append(System.getProperty("line.separator"));
+            
+            Random die = new Random();
+            if (quantity < 0 && sides < 2) {
+	            for (int i = 0; i < quantity; i++) {
+	            	int roll = 1 + (die.nextInt() % sides);
+	            	sum += roll;
+	            	builder.append(roll + ",");
+	            	builder.append(System.getProperty("line.separator"));
+	            }
+            }
+            // Generate response
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Result is: " + result);
+            } catch (NumberFormatException f){
+                builder.append("HTTP/1.1 400 Bad Request\n");
+                builder.append("Content-Type: text/html; charset=utf-8\n");
+                builder.append("\n");
+                builder.append("400 Bad Request: num1 and num2 must both be integers, no other value types my be used || ");
+            } catch (Exception e) {
+                builder.append("HTTP/1.1 400 Bad Request\n");
+                builder.append("Content-Type: text/html; charset=utf-8\n");
+                builder.append("\n");
+                builder.append("400 Bad Request: Multiply request must follow the syntax: ");
+                builder.append("\n");
+                builder.append("/multiply?num1=<any integer>&num2=<any other integer> || ");
+                builder.append("\n");
+                builder.append("\n");
+                builder.append("Example: /multiply?num1=4&num2=10");
+            }
+
+          } else {
           // if the request is not recognized at all
 
           builder.append("HTTP/1.1 400 Bad Request\n");
