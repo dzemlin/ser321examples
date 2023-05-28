@@ -257,8 +257,8 @@ class WebServer {
         	  String repoOwner = null;
         	  JSONObject ownerData = null;
         	  try {
-        		  repoName = jArray.getJSONObject(i).getString("name");
-        		  repoId = jArray.getJSONObject(i).getString("id");
+        		  repoName = jArray.getJSONObject(i).getString("full_name");
+        		  repoId = jArray.getJSONObject(i).getInt("id") + "";
         		  //ownerData = jArray.getJSONObject(i).getJSONObject("owner");
         		  //repoOwner = ownerData.getString("login");
         	  } catch(Exception e) {
