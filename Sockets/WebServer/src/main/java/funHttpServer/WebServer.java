@@ -19,13 +19,16 @@ package funHttpServer;
 import org.json.*;
 import java.io.*;
 import java.net.*;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.nio.charset.Charset;
+import java.sql.Time;
 
 class WebServer {
   public static void main(String args[]) {
@@ -226,7 +229,7 @@ class WebServer {
               builder.append("\n");
               builder.append("400 Bad Request: Multiply request must follow the syntax: ");
               builder.append("\n");
-              builder.append("/multiply?num1=<any integer>&num2=<any other integer> || ");
+              builder.append("/multiply?num1=<anyInteger>&num2=<any otherInteger> || ");
               builder.append("\n");
               builder.append("\n");
               builder.append("Example: /multiply?num1=4&num2=10");
@@ -332,13 +335,57 @@ class WebServer {
                 builder.append("\n");
                 builder.append("400 Bad Request: Multiply request must follow the syntax: ");
                 builder.append("\n");
-                builder.append("/multiply?num1=<any integer>&num2=<any other integer> || ");
+                builder.append("/multiply?num1=<anyInteger>&num2=<any otherInteger> || ");
                 builder.append("\n");
                 builder.append("\n");
                 builder.append("Example: /multiply?num1=4&num2=10");
             }
 
-          } else {
+          } else if (request.contains("badBoy?")) {
+              // This will roll a given number of polyhedral dice
+
+              Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+              try {
+              query_pairs = splitQuery(request.replace("badBoy?", ""));
+              String word = query_pairs.get("word");
+              Integer times = Integer.parseInt(query_pairs.get("times"));
+              
+              if (times > 0 && word.length() > 0) {
+                  // write on the blackboard
+                  builder.append("HTTP/1.1 200 OK\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+            	  for (int i = 0; i < times; i++) {
+            		  builder.append(word);
+            		  if (i+1 < times) {
+            			  builder.append(", ");
+            		  }
+            	  }
+              } else {
+                  builder.append("HTTP/1.1 400 Bad Request\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+                  builder.append("400 Bad Request: word must be atleast 1 letter long and times must be greater than 0");
+              }
+              
+              } catch (NumberFormatException f){
+                  builder.append("HTTP/1.1 400 Bad Request\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+                  builder.append("400 Bad Request: word must be a string and times must both be integers, no other value types my be used || ");
+              } catch (Exception e) {
+                  builder.append("HTTP/1.1 400 Bad Request\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+                  builder.append("400 Bad Request: request must follow the syntax: ");
+                  builder.append("\n");
+                  builder.append("/badBoy?word=<anyWord>&times=<numberGreaterThanZero> || ");
+                  builder.append("\n");
+                  builder.append("\n");
+                  builder.append("Example: /badBoy?word=good&times=10");
+              }
+
+            } else {
           // if the request is not recognized at all
 
           builder.append("HTTP/1.1 400 Bad Request\n");
