@@ -259,8 +259,8 @@ class WebServer {
         	  try {
         		  repoName = jArray.getJSONObject(i).getString("name");
         		  repoId = jArray.getJSONObject(i).getString("id");
-        		  ownerData = jArray.getJSONObject(i).getJSONObject("owner");
-        		  repoOwner = ownerData.getString("login");
+        		  //ownerData = jArray.getJSONObject(i).getJSONObject("owner");
+        		  //repoOwner = ownerData.getString("login");
         	  } catch(Exception e) {
         		  // no repo found in this JSON object 
         		  repoName = null;
@@ -270,7 +270,7 @@ class WebServer {
 	        	  if (repoName != null) {
 	        	  builder.append(repoName);
 	        	  builder.append("," + repoId);
-	        	  builder.append("," + repoOwner);
+	        	  //builder.append("," + repoOwner);
 	        	  if (i+1 < jArray.length()) {
 	        		  builder.append("  ||  ");
 	        	  }
