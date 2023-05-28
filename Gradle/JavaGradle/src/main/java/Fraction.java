@@ -38,14 +38,23 @@ public class Fraction {
    }
 
    public static void main (String args[]) {
+      int num;
+      int denom;
+      if (args.length == 2) {
+         num = Integer.parseInt(args[0]);
+         denom = Integer.parseInt(args[1]);
+      } else {
+         num = 1;
+         denom = 3;
+      }
       try {
          // create a new instance
          // Fraction *frac = [[Fraction alloc] init];
          Fraction frac = new Fraction();
 
          // set the values
-         frac.setNumerator(1);
-         frac.setDenominator(3);
+         frac.setNumerator(num);
+         frac.setDenominator(denom);
 
          // print it
          System.out.print("The fraction is: ");
