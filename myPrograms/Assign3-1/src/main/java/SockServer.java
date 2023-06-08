@@ -203,7 +203,7 @@ public class SockServer {
 
       //Return the list of names
       res.put("ok", true);
-      res.put("allNames", listOfNames.toString());
+      res.put("allNames", listOfNames.toArray());
       return res;
 
     } else {
