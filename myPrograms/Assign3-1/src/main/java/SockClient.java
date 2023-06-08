@@ -86,7 +86,11 @@ class SockClient {
                   " enter, to see a list of current names?");
           String name = scanner.nextLine();
           json.put("type", "names");
-          json.put("name", name);
+          if (name != null && name.length() < 0) {
+            json.put("name", name);
+          } else {
+            json.put("name", "");
+          }
           break;
       }
 
@@ -102,7 +106,7 @@ class SockClient {
       if (res.getBoolean("ok")){
         if (res.getString("type").equals("echo")) {
           System.out.println(res.getString("echo"));
-        } else {
+        } else if (res.has("result")){
           System.out.println(res.getString("result"));
         }
       } else {
