@@ -86,7 +86,7 @@ class SockClient {
                   " enter, to see a list of current names?");
           String name = scanner.nextLine();
           json.put("type", "names");
-          if (name != null && name.length() < 0) {
+          if (name != null && name.length() > 0) {
             json.put("name", name);
           } else {
             json.put("name", "");

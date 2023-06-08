@@ -222,13 +222,13 @@ public class SockServer {
         listOfNames.add(newName);
         res.put("ok", true);
         res.put("result", newName);
-        res.put("allNames", listOfNames.toString());
+        res.put("allNames", listOfNames.toArray());
         return res;
       } else {
         //If the name is not unique, report this error.
         res.put("ok", false);
         res.put("message", "already used");
-        res.put("allNames", listOfNames.toString());
+        res.put("allNames", listOfNames.toArray());
         return res;
       }
     }
