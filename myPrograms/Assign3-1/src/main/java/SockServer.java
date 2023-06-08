@@ -173,12 +173,14 @@ public class SockServer {
       if (s1.length() < MIN_CAT_STRING_SIZE || s2.length() < MIN_CAT_STRING_SIZE) {
         res.put("ok", false);
         res.put("message", "Both strings must be at least " + MIN_CAT_STRING_SIZE + " characters long");
+        return res;
       }
 
       res.put("result", "" + s1 + "" + s2);
     } catch (org.json.JSONException e){
       res.put("ok", false);
       res.put("message", "Field data needs to be of type: String");
+      return res;
     }
     return res;
   }
@@ -186,6 +188,7 @@ public class SockServer {
   // implement me in assignment 3
   static JSONObject names(JSONObject req) {
     JSONObject res = new JSONObject();
+    res.put("type", "names");
 
     //Check if a name was provided
     if (!req.has("name") || req.getString("name") == null || req.getString("name").length() < 1) {
@@ -194,13 +197,13 @@ public class SockServer {
       //Verify if there are any names in the list
       if (listOfNames.size() < 1) {
         res.put("ok", false);
-        res.put("message", "There are no name currently in the list");
+        res.put("message", "list empty");
         return res;
       }
 
       //Return the list of names
-      res.put("type", "names");
-      res.put("list", "Current list of names: " + listOfNames.toString());
+      res.put("ok", true);
+      res.put("allNames", listOfNames.toString());
       return res;
 
     } else {
@@ -209,7 +212,7 @@ public class SockServer {
       //Verify the data type of the name
       if (!req.get("name").getClass().getName().equals("java.lang.String")){
         res.put("ok", false);
-        res.put("message", "Field data needs to be of type: String");
+        res.put("message", "Field name needs to be of type: String");
         return res;
       }
 
@@ -217,16 +220,15 @@ public class SockServer {
       if (!listOfNames.contains(newName)) {
         //If the name is unique, add it to the list
         listOfNames.add(newName);
-        res.put("type", "names");
-        res.put("result", "You have added the following name to the list: " + newName);
-        res.put("list", "Current list of names: " + listOfNames.toString());
+        res.put("ok", true);
+        res.put("result", newName);
+        res.put("allNames", listOfNames.toString());
         return res;
       } else {
         //If the name is not unique, report this error.
         res.put("ok", false);
-        res.put("message", " ERROR: The new name must not already be in the list");
-        res.put("attempt", "You tried to add: '" + newName + "' to the list");
-        res.put("list", "Current list of names: " + listOfNames.toString());
+        res.put("message", "already used");
+        res.put("allNames", listOfNames.toString());
         return res;
       }
     }

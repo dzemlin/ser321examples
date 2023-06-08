@@ -2,6 +2,19 @@ apply plugin: 'java'
 
 description = "Client Server Socket Example"
 
+ def host = 'localhost'
+ def port = 9000
+
+// task reading in the arguments if any given, if not the default from above will be used
+task arguments {
+    if (project.hasProperty("host")) {
+      host = project.getProperty("host")
+    }
+    if (project.hasProperty("port")) {
+      port = project.getProperty("port")
+    }
+}
+
 repositories {
   mavenCentral()
 }
@@ -32,6 +45,6 @@ task Client(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
 
   main = 'SockClient'
-  args "localhost"
-  args 8888
+  args host
+  args port
 }
