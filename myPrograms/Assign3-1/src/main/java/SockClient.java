@@ -103,7 +103,7 @@ class SockClient {
         if (res.getString("type").equals("echo")) {
           System.out.println(res.getString("echo"));
         } else {
-          System.out.println(res.getInt("result"));
+          System.out.println(res.getString("result"));
         }
       } else {
         System.out.println(res.getString("message"));

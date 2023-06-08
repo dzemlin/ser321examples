@@ -149,19 +149,18 @@ public class SockServer {
     JSONObject res1 = testField(req, "s1");
     if (!res1.getBoolean("ok") || !req.get("s1").getClass().getName().equals("java.lang.String")) {
       res1.put("ok", false);
-      res1.put("message", "Field data needs to be of type: String");
+      res1.put("message", "Field s1 needs to be of type: String");
       return res1;
     }
     JSONObject res2 = testField(req, "s2");
     if (!res2.getBoolean("ok") || !req.get("s2").getClass().getName().equals("java.lang.String")) {
       res1.put("ok", false);
-      res1.put("message", "Field data needs to be of type: String");
+      res1.put("message", "Field s2 needs to be of type: String");
       return res2;
     }
 
     //Prepare response
     JSONObject res = new JSONObject();
-    res.put("ok", true);
     res.put("type", "concat");
 
     //Convert request to strings and concatenate
@@ -172,17 +171,18 @@ public class SockServer {
       //Validate String Length.
       if (s1.length() < MIN_CAT_STRING_SIZE || s2.length() < MIN_CAT_STRING_SIZE) {
         res.put("ok", false);
-        res.put("message", "Both strings must be at least " + MIN_CAT_STRING_SIZE + " characters long");
+        res.put("message", "too short");
+        return res;
+      } else {
+        res.put("ok", true);
+        res.put("result", "" + s1 + "" + s2);
         return res;
       }
-
-      res.put("result", "" + s1 + "" + s2);
     } catch (org.json.JSONException e){
       res.put("ok", false);
-      res.put("message", "Field data needs to be of type: String");
+      res.put("message", "Field s1 and s2 needs to be of type: String");
       return res;
     }
-    return res;
   }
 
   // implement me in assignment 3
