@@ -299,6 +299,7 @@ public class SockServer {
 				cityOrCountry = "COUNTRY";
 			}
 
+			System.out.println("Correct answer is: " + currentLocation);
 			outMessage.put("type", "next");
 			try {
 				outMessage.put("ok", true);
@@ -339,6 +340,7 @@ public class SockServer {
 					cityOrCountry = "COUNTRY";
 				}
 
+				System.out.println("Correct answer is: " + currentLocation);
 				try {
 					outMessage.put("type", "guess");
 					outMessage.put("ok", true);
@@ -369,7 +371,7 @@ public class SockServer {
 
 	public static void gameOver(JSONObject response, boolean lastMoveWasCorrect) {
 		response.put("type", "gameOver");
-		if (points > 11) {
+		if (points > 12) {
 			saveLeaderBoard();
 			try {
 				response.put("ok", true);
@@ -379,8 +381,7 @@ public class SockServer {
 				}
 				response.put("message2", "You Win!");
 				response.put("message3", "Score = " + points);
-				response.put("message4", "Type 's' and click submit to see the leader board of high scores.");
-				response.put("message5", "Type 'p' and click submit to play the game again.");
+				response.put("message4", "If you want to play again, please enter you name, or type 'quit'.");
 				response.put("points", points);
 			} catch (Exception e) {
 				response.put("ok", false);
@@ -395,8 +396,7 @@ public class SockServer {
 				}
 				response.put("message2", "You Lose.");
 				response.put("message3", "Score = " + points);
-				response.put("message4", "Type 's' and click submit to see the leader board of high scores.");
-				response.put("message5", "Type 'p' and click submit to play the game again.");
+				response.put("message4", "If you want to play again, please enter you name, or type 'quit'.");
 				response.put("points", points);
 			} catch (Exception e) {
 				response.put("ok", false);
@@ -409,7 +409,7 @@ public class SockServer {
 		locationStack = new Stack<>();
 		pictureNumberStack = new Stack<>();
 		points = 0;
-		gameState = 2;
+		gameState = 1;
 	}
 
 	public static boolean isLettersOrDigits(String str) {

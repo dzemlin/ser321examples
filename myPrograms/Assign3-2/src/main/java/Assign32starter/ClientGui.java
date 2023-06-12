@@ -347,7 +347,7 @@ public class ClientGui implements Assign32starter.OutputPanel.EventHandlers {
 			outputPanel.setPoints(response.getInt("points"));
 		}
 		if (response.has("userError")) {
-			outputPanel.appendOutput(response.getString("systemError"));
+			outputPanel.appendOutput(response.getString("userError"));
 		}
 		if (response.has("systemError")) {
 			outputPanel.appendOutput(response.getString("systemError"));
@@ -376,9 +376,6 @@ public class ClientGui implements Assign32starter.OutputPanel.EventHandlers {
 		if (response.has("message4")) {
 			outputPanel.appendOutput("-----------------------------------------------------------");
 			outputPanel.appendOutput(response.getString("message4"));
-		}
-		if (response.has("message5")) {
-			outputPanel.appendOutput(response.getString("message5"));
 		}
 		if (response.has("points")) {
 			outputPanel.setPoints(response.getInt("points"));
