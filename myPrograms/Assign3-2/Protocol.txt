@@ -1,0 +1,199 @@
+General response:
+
+    {
+        "type" : "start", -- type of command executed
+        "ok" : <bool>, -- true or false depending
+	"image" : <String>, -- Base 64 encoded image as a string
+        "message" : <String>, -- next message to display in the clients window
+	"message2" : <String>, -- 2nd new message to display in the clients window
+	"userError" : <String>, -- Error caused by bad input
+        "systemError" : <String>  -- Error caused by systems outside the user's control
+    }
+
+
+
+Application Status
+---Server---
+exit status 0 = Successful
+exit status 1 = User Error
+exit status 2 = System Error
+exit status 3 = Lost Connection
+
+## Protocol: ##
+
+### Start: ###
+
+Request: 
+
+    {
+        "Submission" : "start"
+    }
+
+General response:
+
+    {
+        "type" : "start", -- type of command executed
+        "ok" : <bool>, -- true or false depending
+	"image" : <String>, -- Base 64 encoded image as a string
+        "message" : <String>, -- next message to display in the clients window
+        "systemError" : <String>  -- Error caused by systems outside the user's control
+    }
+
+Success response:
+
+    {
+        "type" : "start",
+        "ok" : true,
+        "image" : <String>,
+	"message" : "Hello please enter your name."
+    }
+
+If the image is not found
+    {
+        "type" : "start",
+        "ok" : false,
+        "image" : <String> -- Base 64 encoded image as a string
+	"systemError" : "Image not found."
+    }
+
+### Quit: ###
+
+Request: 
+
+    {
+        "Submission" : "quit" -- Command submitted by the client
+    }
+
+General response:
+	none
+
+Success response:
+	none
+
+### Login: ### 
+Request:
+
+    {
+        "Submission" : <string> -- name of the user
+    }
+
+General response:
+
+    {
+        "type" : "start", -- type of command executed
+        "ok" : <bool>, -- true or false depending
+        "message" : <String>, -- next message to display in the clients window
+        "message" : <String>, -- next message to display in the clients window
+	"message2" : <String>, -- 2nd new message to display in the clients window
+	"message3" : <String>, -- 3rd new message to display in the clients window
+	"userError" : <String> -- Error caused by bad input
+    }
+
+Success response (new user):
+
+    {
+        "type" : "login",
+        "ok" : true,
+        "message" : "Welcome <userName>!"
+	"message2" : "Type 's' and click submit to see the leader board of high scorse."
+	"message3" : "Type 'p' and click submit to play the game."
+    }
+
+Success response (pervious user):
+
+    {
+        "type" : "login",
+        "ok" : true,
+        "message" : "Welcome back <userName>!"
+	"message2" : "Type 's' and click submit to see the leader board of high scores."
+	"message3" : "Type 'p' and click submit to play the game."
+    }
+
+No 'login' key found
+
+    {
+        "type" : "login",
+        "ok" : false,
+        "systemError" : "Key 'login' is missing"
+    }
+
+'login' key is empty
+
+    {
+        "type" : "login",
+        "ok" : false,
+        "userError" : "Key 'login' is empty"
+    }
+
+If invalid format is used for name:
+    {
+        "type" : "login",
+        "ok" : false,
+        "userError" : "Please renter name. Name must consist of only letters or numbers and may not have spaces or special characters."
+    }
+
+### LeaderBoard: ###
+
+Request: 
+
+    {
+        "Submission" : "s"
+    }
+
+General response:
+
+    {
+        "type" : "leaderBoard", -- type of command executed
+        "ok" : <bool>, -- true or false depending
+        "object" : <JSONObject>, -- the leaderboard data that the client will parse thru
+        "message" : <String> -- next message to display in the clients window
+    }
+
+Success response:
+
+    {
+        "type" : "leaderBoard",
+        "ok" : true,
+        "object" : <leaderBoard>, -- the leaderboard data that the client will parse thru
+        "message" : "Type 'p' and click submit to play the game."
+
+    }
+
+### Play ###
+
+Request: 
+
+    {
+        "Submission" : "p"
+    }
+
+General response:
+
+    {
+        "type" : "guess", -- type of command executed
+        "ok" : <bool>, -- true or false depending
+	"image" : <String>, -- Base 64 encoded image as a string
+        "message" : <String>, -- next message to display in the clients window
+    }
+
+
+Success response:
+
+    {
+        "type" : "guess",
+        "ok" : true,
+	"image" : <String>,
+        "message" : Guess the <location>. type 'more' for another hint picture. Type 'next' to skip
+	"message2" : "There are <#> hints left" 
+    }
+
+
+
+### General error responses: ###
+Used in multiple requests
+
+Error response: The requested type is not valid
+    {
+        "ok" : false
+        "userError" : "Invalid Submission: <submission>" 
+    }

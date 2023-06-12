@@ -36,7 +36,7 @@ public class SockServer {
 
     try {
       //open socket
-      ServerSocket serv = new ServerSocket(8888); // create server socket on port 8888
+      ServerSocket serv = new ServerSocket(port);
       System.out.println("Server ready for connections");
 
       /**
