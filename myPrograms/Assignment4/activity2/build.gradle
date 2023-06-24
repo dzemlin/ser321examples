@@ -1,0 +1,69 @@
+plugins {
+  id 'java'
+  id "com.google.protobuf" version "0.8.13" apply true
+}
+
+description = "Protocol Buffers Socket Example"
+
+// define default arguments for if the program is called without any
+ def host = 'localhost'
+ def port = 8000
+
+// task reading in the arguments if any given, if not the default from above will be used
+task arguments {
+    if (project.hasProperty("host")) {
+      host = project.getProperty("host")
+    }
+    if (project.hasProperty("port")) {
+      port = project.getProperty("port")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+// json and protobuf dependencies 
+dependencies {
+    implementation group: 'org.json', name: 'json', version: '20200518'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.13.0'
+}
+
+//For IntelliJ users, uncomment the following so your IDE will recognize generated protobuf
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/java/buffers/'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.13.0'
+    }
+}
+
+//gradle runClient -Phost='localhost' -Pport=9099
+task runClient(type: JavaExec) {
+  description = "Run Client"
+
+  standardInput = System.in
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'client.SockBaseClient'
+  args host 
+  args port
+}
+
+//gradle runServer -Pport=9099
+task runServer(type: JavaExec) {
+  description = "Run Server"
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'server.SockBaseServer'
+  args port
+  args '1000' // sleep delay will always be this
+}
+
+

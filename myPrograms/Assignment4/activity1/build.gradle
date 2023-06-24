@@ -1,0 +1,85 @@
+// set as java application
+apply plugin: 'application'
+
+description = "Fun server for testing threads"
+
+// define default arguments for if the program is called without any
+ def host = 'localhost'
+ def port = 8000
+ def size = 3
+
+// assign user defined args over the default ones
+task arguments {
+    if (project.hasProperty("host")) {
+      host = project.getProperty("host")
+    }
+    if (project.hasProperty("port")) {
+      port = project.getProperty("port")
+    }
+    if (project.hasProperty("size")) {
+      size = project.getProperty("size")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+   implementation group: 'org.json', name: 'json', version: '20200518'
+}
+
+//define main class
+mainClassName = 'Concentration'
+
+task runClient(type: JavaExec) {
+  // run with arguments e.g.: gradle runClient -Phost=localhost -Pport=9099 -q --console=plain
+  group 'client'
+  description 'Creates client socket sends a message to the server'
+
+  standardInput = System.in
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.Client'
+  args host
+  args port
+}
+
+task runTask1(type: JavaExec) {
+  // run with arguments e.g.: gradle runTask1 -Pport=9099 -q --console=plain
+  group 'server'
+  description 'Creates Server socket waits for messages'
+
+  //standardInput = System.in
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.Server'
+  args port
+}
+
+task runTask2(type: JavaExec) {
+  // run with arguments e.g.: gradle runTask2 -Pport=9099 -q --console=plain
+  group 'server'
+  description 'Creates an unbounded Server'
+
+  //standardInput = System.in
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.ThreadedServer'
+  args port
+}
+
+task runTask3(type: JavaExec) {
+  // run with arguments e.g.: gradle runTask3 -Pport=9099 -Psize=5 -q --console=plain
+  group 'server'
+  description 'Creates Server socket with a bounded thread pool'
+
+  //standardInput = System.in
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.ThreadPoolServer'
+  args port
+  args size
+}
+
+
